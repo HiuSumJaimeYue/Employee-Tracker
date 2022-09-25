@@ -5,7 +5,7 @@ This is a employee tracker made by Hiu Sum Jaime Yue.
 In this employee tracker application, it allows you to view, add employees/departments/roles and update employee's role.         
 When you run the employee tracker application, you can see the options of action you want to do.       
 
-The technologies we used in this project is Node.js, Express.js, Handlebars.js, MySql, Sequelize and Heroku.
+The technologies we used in this project is Node.js, Inquirer and MySQL.
 
 Below are the links to this repository and the video of demostration. Screenshots are shown in the Usage Section.
         
