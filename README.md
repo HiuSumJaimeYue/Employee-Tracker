@@ -7,7 +7,7 @@ When you run the employee tracker application, you can see the options of action
 
 The technologies we used in this project is Node.js, Inquirer and MySQL.
 
-Below are the links to this repository and the video of demostration. Screenshots are shown in the Usage Section.
+Below are the links to this repository and the video of demostration.
         
 Github repository: https://github.com/HiuSumJaimeYue/Employee-Tracker           
 Video of demonstration: 
