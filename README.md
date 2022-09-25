@@ -21,7 +21,7 @@ Video of demonstration:
 -[Questions](#questions)        
 
 ## Installation         
-Run "npm i inquirer@8.2.4" and "npm i mysql2" in your terminal after downloading the files.                 
+Run "npm i inquirer@8.2.4" and "npm i mysql2" in your terminal after downloading the files from the GitHub repository.                 
 
 ## Usage    
   
@@ -45,6 +45,6 @@ Run `node app.js` to test the application.
 
 ## Questions         
 If you have any questions about the project, 
-the github link and email address of the author are shown below.                   
-Github: [Github](https://github.com/HiuSumJaimeYue) 
+the GitHub link and email address of the author are shown below.                   
+GitHub: [GitHub](https://github.com/HiuSumJaimeYue) 
 & Email: [hiusumjaimeyue@cmail.carleton.ca](mailto:hiusumjaimeyue@cmail.carleton.ca)
