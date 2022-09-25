@@ -21,7 +21,7 @@ Video of demonstration:
 -[Questions](#questions)        
 
 ## Installation         
-Run "npm i" in your terminal after downloading the files.                 
+Run "npm i inquirer@8.2.4" and "npm i mysql2" in your terminal after downloading the files.                 
 
 ## Usage    
   
