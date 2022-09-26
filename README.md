@@ -5,7 +5,7 @@ This is a employee tracker made by Hiu Sum Jaime Yue.
 In this employee tracker application, it allows you to view, add employees/departments/roles and update employee's role.         
 When you run the employee tracker application, you can see the options of action you want to do.       
 
-The technologies I used in this project is Node.js, Inquirer and MySQL.
+The technologies I used in this project are Node.js, Inquirer and MySQL.
 
 Below are the links to this repository and the video of demostration.
         
@@ -26,10 +26,10 @@ Run "npm i inquirer@8.2.4" and "npm i mysql2" in your terminal after downloading
 ## Usage    
   
 You can see view all the employees, roles and departments.           
-You can add employee. You will be asked to input the employee's first and last name, to select the employee's role and manager.            
+You can add employees. You will be asked to input the employee's first and last name, to select the employee's role and manager.            
 You can update employee's role. You will be asked to select which employee and their changed role.              
-You can add role. You will be asked to input the new role, its salary and its department.             
-You can add department. You will be asked to input the new department name.              
+You can add roles. You will be asked to input the new role, its salary and its department.             
+You can add departments. You will be asked to input the new department name.              
             
 
 ## License         

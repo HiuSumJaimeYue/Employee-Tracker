@@ -1,13 +1,5 @@
 const inquirer = require('inquirer');
-// const db = mysql.createConnection(
-//     {
-//       host: 'localhost',
-//       user: 'root',
-//       password: '',
-//       database: 'employee_data'
-//     },
-//     console.log('Connected to the employee_data database.')
-//   );
+// const db = require('../../db/connection');
 
 const promptAction = (teamData = []) => {
     if (!teamData.action) {
