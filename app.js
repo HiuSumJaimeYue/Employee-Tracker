@@ -132,6 +132,19 @@ const promptAction = (teamData = []) => {
                 teamData.lastName = action.lastName;
                 teamData.role = action.role;
                 teamData.assignedManager = action.assignedManager;
+                // Create a employee
+                const sqlCreateEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
+                VALUES (?,?,?,?)`;
+                const params = [teamData.firstName, teamData.lastName, 4, 5];
+
+                db.query(sqlCreateEmployee, params, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log("Added" + teamData.firstName + " " + teamData.lastName + " to the database");
+                    promptAction(teamData);
+                });
+                return;
             } else if (action.actionInquirer === 'Update Employee Role') {
                 teamData.updateEmployee = action.updateEmployee;
                 teamData.updateRole = action.updateRole;
