@@ -104,7 +104,6 @@ const promptAction = (teamData = []) => {
             message: 'What is the name of the department?',
             validate: newDepartmentNameInput => {
                 if (newDepartmentNameInput) {
-                    console.log("\nAdded " + newDepartmentNameInput + " to the database");
                     return true;
                 } else {
                     console.log('Please enter a department name!');
@@ -157,6 +156,7 @@ const promptAction = (teamData = []) => {
             }
             else if (action.actionInquirer === 'Add Department') {
                 console.log("Add De");
+                console.log("\nAdded " + action.newDepartmentName + " to the database");
                 teamData.newDepartment = action.newDepartmentName;
             }
             teamData.action = action.actionInquirer;
