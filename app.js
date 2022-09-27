@@ -148,7 +148,20 @@ const promptAction = (teamData = []) => {
             } else if (action.actionInquirer === 'Update Employee Role') {
                 teamData.updateEmployee = action.updateEmployee;
                 teamData.updateRole = action.updateRole;
-                console.log("Updated employee\'s Role");
+
+                // Update employee's role
+                const sqlUpdateEmployee = `UPDATE employees
+                SET role_id =? WHERE id = ?;`;
+                const paramsUpdate = [3, 1];
+
+                db.query(sqlUpdateEmployee, paramsUpdate, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log("Updated employee\'s Role");
+                    promptAction(teamData);
+                });
+                return;
             } else if (action.actionInquirer === 'View All Roles') {
                 console.log("View Roles");
             } else if (action.actionInquirer === 'Add Role') {
