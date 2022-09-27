@@ -122,6 +122,7 @@ const promptAction = (teamData = []) => {
                     }
                     console.log("\n");
                     console.table(row);
+                    promptAction();
                 });
                 // async function viewEmDisplay() {
                 //     let viewEmPromise = new Promise(function (resolve, reject) {
