@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-// const db = require('../../db/connection');
+const db = require('./db/connection');
 
 const promptAction = (teamData = []) => {
     if (!teamData.action) {
@@ -46,25 +46,25 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'role',
             message: 'What is the employee\'s role?',
-            choices: ['R1','R2','R3'],
+            choices: ['R1', 'R2', 'R3'],
             when: (answers) => answers.actionInquirer === 'Add Employee'
-        },  {
+        }, {
             type: 'list',
             name: 'assignedManager',
             message: 'What is the employee\'s manager?',
-            choices: ['None','M1','M2','M3'],
+            choices: ['None', 'M1', 'M2', 'M3'],
             when: (answers) => answers.actionInquirer === 'Add Employee'
         }, {
             type: 'list',
             name: 'updateEmployee',
             message: 'Which employee\'s role do you want to update?',
-            choices: ['E1','E2','E3'],
+            choices: ['E1', 'E2', 'E3'],
             when: (answers) => answers.actionInquirer === 'Update Employee Role'
         }, {
             type: 'list',
             name: 'updateRole',
             message: 'Which role do you want to assign the selected employee?',
-            choices: ['R1','R2','R3'],
+            choices: ['R1', 'R2', 'R3'],
             when: (answers) => answers.actionInquirer === 'Update Employee Role'
         }, {
             type: 'input',
@@ -79,7 +79,7 @@ const promptAction = (teamData = []) => {
                 }
             },
             when: (answers) => answers.actionInquirer === 'Add Role'
-        },  {
+        }, {
             type: 'input',
             name: 'salary',
             message: 'What is the salary of the role?',
@@ -96,7 +96,7 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'roleDepartment',
             message: 'What deparatment does the role belong to?',
-            choices: ['D1','D2','D3'],
+            choices: ['D1', 'D2', 'D3'],
             when: (answers) => answers.actionInquirer === 'Add Role'
         }, {
             type: 'input',
@@ -104,7 +104,7 @@ const promptAction = (teamData = []) => {
             message: 'What is the name of the department?',
             validate: newDepartmentNameInput => {
                 if (newDepartmentNameInput) {
-                    console.log("Added "+ newDepartmentNameInput + "to the database");
+                    console.log("\nAdded " + newDepartmentNameInput + " to the database");
                     return true;
                 } else {
                     console.log('Please enter a department name!');
@@ -117,6 +117,24 @@ const promptAction = (teamData = []) => {
         .then(action => {
             if (action.actionInquirer === 'View All Employees') {
                 console.log("View Em");
+                db.query(`SELECT * FROM employees`, (err, row) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.table(row);
+                });
+                // async function viewEmDisplay() {
+                //     let viewEmPromise = new Promise(function (resolve, reject) {
+                //         db.query(`SELECT * FROM employees`, (err, row) => {
+                //             if (err) {
+                //                 reject(err);
+                //             }
+                //             resolve(row);
+                //         })
+                //     });
+                //     console.table(viewEmPromise);
+                // };
+                // viewEmDisplay();
             } else if (action.actionInquirer === 'Add Employee') {
                 console.log("Add Em");
                 teamData.firstName = action.firstName;
