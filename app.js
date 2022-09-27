@@ -120,6 +120,7 @@ const promptAction = (teamData = []) => {
                     if (err) {
                         console.log(err);
                     }
+                    console.log("\n");
                     console.table(row);
                 });
                 // async function viewEmDisplay() {
