@@ -114,6 +114,7 @@ const promptAction = (teamData = []) => {
         }]
     )
         .then(action => {
+            teamData.action = action.actionInquirer;
             if (action.actionInquirer === 'View All Employees') {
                 console.log("View Em");
                 db.query(`SELECT * FROM employees`, (err, row) => {
@@ -122,20 +123,9 @@ const promptAction = (teamData = []) => {
                     }
                     console.log("\n");
                     console.table(row);
-                    promptAction();
+                    promptAction(teamData);
                 });
-                // async function viewEmDisplay() {
-                //     let viewEmPromise = new Promise(function (resolve, reject) {
-                //         db.query(`SELECT * FROM employees`, (err, row) => {
-                //             if (err) {
-                //                 reject(err);
-                //             }
-                //             resolve(row);
-                //         })
-                //     });
-                //     console.table(viewEmPromise);
-                // };
-                // viewEmDisplay();
+                return;
             } else if (action.actionInquirer === 'Add Employee') {
                 console.log("Add Em");
                 teamData.firstName = action.firstName;
@@ -161,7 +151,6 @@ const promptAction = (teamData = []) => {
                 console.log("\nAdded " + action.newDepartmentName + " to the database");
                 teamData.newDepartment = action.newDepartmentName;
             }
-            teamData.action = action.actionInquirer;
             console.log(teamData);
             return promptAction(teamData);
 
