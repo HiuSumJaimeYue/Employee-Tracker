@@ -1,10 +1,30 @@
 const inquirer = require('inquirer');
 const db = require('./db/connection');
 var rolesList = [];
+var employeeList = [];
+
+const employeeChoices = () => {
+    const employeeQuery = `SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;`;
+
+    db.query(employeeQuery, (err, row) => {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log("\n");
+        for (var i = 0; i < row.length; i++) {
+            employeeList.push(row[i].full_name);
+        }
+        // console.log(employeeList);
+    });
+    return employeeList;
+    // console.log(employeeList);
+};
+// employeeChoices();
 
 const roleChoices = () => {
     const roleQuery = `SELECT title FROM roles;`;
-    
+
     db.query(roleQuery, (err, row) => {
         if (err) {
             console.log(err);
@@ -14,14 +34,19 @@ const roleChoices = () => {
         for (var i = 0; i < row.length; i++) {
             rolesList.push(row[i].title);
         }
-        console.log(rolesList);
+        // console.log(rolesList);
     });
     return rolesList;
     // console.log(rolesList);
 };
-console.log(roleChoices());
+
+// console.log(roleChoices);
 const promptAction = (teamData = []) => {
     // const roleChoicesList = roleChoices;
+    rolesList = [];
+    employeeList = [];
+    roleChoices();
+    employeeChoices();
 
     if (!teamData.action) {
         console.log(
@@ -67,7 +92,7 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'role',
             message: 'What is the employee\'s role?',
-            choices: roleChoices,//['R1', 'R2', 'R3'],
+            choices: rolesList,//['R1', 'R2', 'R3'],
             when: (answers) => answers.actionInquirer === 'Add Employee'
         }, {
             type: 'list',
@@ -79,7 +104,7 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'updateEmployee',
             message: 'Which employee\'s role do you want to update?',
-            choices: ['E1', 'E2', 'E3'],
+            choices: employeeList,//['E1', 'E2', 'E3'],
             when: (answers) => answers.actionInquirer === 'Update Employee Role'
         }, {
             type: 'list',
