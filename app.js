@@ -1,7 +1,28 @@
 const inquirer = require('inquirer');
 const db = require('./db/connection');
+var rolesList = [];
 
+const roleChoices = () => {
+    const roleQuery = `SELECT title FROM roles;`;
+    
+    db.query(roleQuery, (err, row) => {
+        if (err) {
+            console.log(err);
+        }
+        // let rolesList = [];
+        console.log("\n");
+        for (var i = 0; i < row.length; i++) {
+            rolesList.push(row[i].title);
+        }
+        console.log(rolesList);
+    });
+    return rolesList;
+    // console.log(rolesList);
+};
+console.log(roleChoices());
 const promptAction = (teamData = []) => {
+    // const roleChoicesList = roleChoices;
+
     if (!teamData.action) {
         console.log(
             "╔══════════════════╗\n" +
@@ -46,7 +67,7 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'role',
             message: 'What is the employee\'s role?',
-            choices: ['R1', 'R2', 'R3'],
+            choices: roleChoices,//['R1', 'R2', 'R3'],
             when: (answers) => answers.actionInquirer === 'Add Employee'
         }, {
             type: 'list',
