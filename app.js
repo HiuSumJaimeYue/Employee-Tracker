@@ -156,7 +156,6 @@ const promptAction = (teamData = []) => {
         .then(action => {
             teamData.action = action.actionInquirer;
             if (action.actionInquirer === 'View All Employees') {
-                console.log("View Em");
                 const sqlViewEmployee = `SELECT employees.id, employees.first_name, last_name,roles.title,
                 roles.department_id, roles.salary,  employees.manager_id
                 FROM employees
@@ -165,18 +164,16 @@ const promptAction = (teamData = []) => {
                     if (err) {
                         console.log(err);
                     }
-                    console.log("\n");
                     console.table(row);
                     promptAction(teamData);
                 });
                 return;
             } else if (action.actionInquirer === 'Add Employee') {
-                console.log("Add Em");
                 teamData.firstName = action.firstName;
                 teamData.lastName = action.lastName;
                 teamData.role = action.role;
                 teamData.assignedManager = action.assignedManager;
-                // Create a employee
+                // Create an employee
                 const sqlCreateEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
                 VALUES (?,?,?,?)`;
 
@@ -187,6 +184,8 @@ const promptAction = (teamData = []) => {
                         console.log(err);
                     }
                     console.log("Added " + teamData.firstName + " " + teamData.lastName + " to the database");
+                    rolesList = [];
+                    employeeList = [];
                     promptAction(teamData);
                 });
                 return;
@@ -206,41 +205,42 @@ const promptAction = (teamData = []) => {
                         console.log(err);
                     }
                     console.log("Updated employee\'s Role");
+                    rolesList = [];
+                    employeeList = [];
                     promptAction(teamData);
                 });
                 return;
             } else if (action.actionInquirer === 'View All Roles') {
-                console.log("View Roles");
                 const sqlViewRoles = `SELECT * FROM roles;`;
                 db.query(sqlViewRoles, (err, row) => {
                     if (err) {
                         console.log(err);
                     }
-                    console.log("\n");
                     console.table(row);
                     promptAction(teamData);
                 });
                 return;
 
             } else if (action.actionInquirer === 'Add Role') {
-                console.log("Add Ro");
                 teamData.newRole = action.newRole;
                 teamData.salary = action.salary;
                 teamData.roleDepartment = action.roleDepartment;
 
-                // Create a employee
-                // const sqlCreateRole = `INSERT INTO roles (title, last_name, role_id, manager_id) 
-                // VALUES (?,?,?,?)`;
+                // Create a role
+                const sqlCreateRole = `INSERT INTO roles (title, salary, department_id) 
+                VALUES (?,?,?)`;
 
-                // const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 5];
+                const params = [teamData.newRole, teamData.salary, 2];
 
-                // db.query(sqlCreateRole, params, (err, result) => {
-                //     if (err) {
-                //         console.log(err);
-                //     }
-                //     console.log("Added " + teamData.firstName + " " + teamData.lastName + " to the database");
-                //     promptAction(teamData);
-                // });
+                db.query(sqlCreateRole, params, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log("Added " + teamData.newRole + " to the database");
+                    rolesList = [];
+                    employeeList = [];
+                    promptAction(teamData);
+                });
                 return;
             } else if (action.actionInquirer === 'View All Departments') {
                 console.log("View All De");
