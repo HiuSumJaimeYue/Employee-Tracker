@@ -36,7 +36,7 @@ const roleChoices = () => {
 };
 
 const promptAction = (teamData = []) => {
-    
+
     rolesList = [];
     employeeList = [];
     roleChoices();
@@ -199,7 +199,7 @@ const promptAction = (teamData = []) => {
                 SET role_id =? WHERE id = ?;`;
 
                 const paramsUpdate = [rolesList.indexOf(teamData.updateRole) + 1,
-                    employeeList.indexOf(teamData.updateEmployee) + 1];
+                employeeList.indexOf(teamData.updateEmployee) + 1];
 
                 db.query(sqlUpdateEmployee, paramsUpdate, (err, result) => {
                     if (err) {
@@ -211,11 +211,37 @@ const promptAction = (teamData = []) => {
                 return;
             } else if (action.actionInquirer === 'View All Roles') {
                 console.log("View Roles");
+                const sqlViewRoles = `SELECT * FROM roles;`;
+                db.query(sqlViewRoles, (err, row) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log("\n");
+                    console.table(row);
+                    promptAction(teamData);
+                });
+                return;
+
             } else if (action.actionInquirer === 'Add Role') {
                 console.log("Add Ro");
                 teamData.newRole = action.newRole;
                 teamData.salary = action.salary;
                 teamData.roleDepartment = action.roleDepartment;
+
+                // Create a employee
+                // const sqlCreateRole = `INSERT INTO roles (title, last_name, role_id, manager_id) 
+                // VALUES (?,?,?,?)`;
+
+                // const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 5];
+
+                // db.query(sqlCreateRole, params, (err, result) => {
+                //     if (err) {
+                //         console.log(err);
+                //     }
+                //     console.log("Added " + teamData.firstName + " " + teamData.lastName + " to the database");
+                //     promptAction(teamData);
+                // });
+                return;
             } else if (action.actionInquirer === 'View All Departments') {
                 console.log("View All De");
             }
