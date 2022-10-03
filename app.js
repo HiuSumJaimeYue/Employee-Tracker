@@ -41,6 +41,9 @@ const promptAction = (teamData = []) => {
     employeeList = [];
     roleChoices();
     employeeChoices();
+    const managerList = employeeList;
+    managerList.unshift("None");
+    console.log(managerList);
 
     if (!teamData.action) {
         console.log(
@@ -92,7 +95,7 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'assignedManager',
             message: 'What is the employee\'s manager?',
-            choices: ['None', 'M1', 'M2', 'M3'],
+            choices: managerList,//with None
             when: (answers) => answers.actionInquirer === 'Add Employee'
         }, {
             type: 'list',
@@ -177,7 +180,11 @@ const promptAction = (teamData = []) => {
                 const sqlCreateEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
                 VALUES (?,?,?,?)`;
 
-                const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 5];
+                //function for null case
+                //If 0
+
+                const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 
+                    employeeList.indexOf(teamData.assignedManager)];                
 
                 db.query(sqlCreateEmployee, params, (err, result) => {
                     if (err) {

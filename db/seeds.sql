@@ -10,9 +10,10 @@ VALUES
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES
-('Rob', 'Smith', 1, 2),
-('Jason', 'Woolf', 2, 2),
-('Chole', 'Gaveston',2, 3),
-('Charles', 'LeRoi', 3, 5),
-('Kat', 'Mansfield', 4, 3);
+('Rob', 'Smith', 1, NULL),
+('Jason', 'Woolf', 2, 1),
+('Chole', 'Gaveston',2, 2),
+('Charles', 'LeRoi', 3, 3),
+('Kat', 'Mansfield', 4, 4)
+;
 
