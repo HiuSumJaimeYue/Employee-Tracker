@@ -179,7 +179,6 @@ const promptAction = (teamData = []) => {
                 // Create a employee
                 const sqlCreateEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
                 VALUES (?,?,?,?)`;
-                //console.log(teamData.role);
 
                 const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 5];
 
@@ -198,7 +197,9 @@ const promptAction = (teamData = []) => {
                 // Update employee's role
                 const sqlUpdateEmployee = `UPDATE employees
                 SET role_id =? WHERE id = ?;`;
-                const paramsUpdate = [3, 1];
+
+                const paramsUpdate = [rolesList.indexOf(teamData.updateRole) + 1,
+                    employeeList.indexOf(teamData.updateEmployee) + 1];
 
                 db.query(sqlUpdateEmployee, paramsUpdate, (err, result) => {
                     if (err) {
