@@ -43,7 +43,6 @@ const promptAction = (teamData = []) => {
     employeeChoices();
     const managerList = employeeList;
     managerList.unshift("None");
-    console.log(managerList);
 
     if (!teamData.action) {
         console.log(
@@ -179,12 +178,24 @@ const promptAction = (teamData = []) => {
                 // Create an employee
                 const sqlCreateEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
                 VALUES (?,?,?,?)`;
+                let manager;
 
+                // if (teamData.role === "None"){
+                //     manager = null;
+                // }else{
+                manager = managerList.indexOf(teamData.assignedManager);
+                if (manager === 0) {
+                    manager = null;
+                }
+                // }
+                const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1,
+                    manager];
                 //function for null case
-                //If 0
+                // if(teamData.assignedManager !== "None"){
+                //     const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 
+                //         employeeList.indexOf(teamData.assignedManager) + 1]; 
+                // }
 
-                const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 
-                    employeeList.indexOf(teamData.assignedManager)];                
 
                 db.query(sqlCreateEmployee, params, (err, result) => {
                     if (err) {
