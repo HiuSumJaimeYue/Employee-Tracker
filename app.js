@@ -15,12 +15,10 @@ const employeeChoices = () => {
         for (var i = 0; i < row.length; i++) {
             employeeList.push(row[i].full_name);
         }
-        // console.log(employeeList);
     });
     return employeeList;
-    // console.log(employeeList);
 };
-// employeeChoices();
+
 
 const roleChoices = () => {
     const roleQuery = `SELECT title FROM roles;`;
@@ -29,20 +27,16 @@ const roleChoices = () => {
         if (err) {
             console.log(err);
         }
-        // let rolesList = [];
         console.log("\n");
         for (var i = 0; i < row.length; i++) {
             rolesList.push(row[i].title);
         }
-        // console.log(rolesList);
     });
     return rolesList;
-    // console.log(rolesList);
 };
 
-// console.log(roleChoices);
 const promptAction = (teamData = []) => {
-    // const roleChoicesList = roleChoices;
+    
     rolesList = [];
     employeeList = [];
     roleChoices();
@@ -92,7 +86,7 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'role',
             message: 'What is the employee\'s role?',
-            choices: rolesList,//['R1', 'R2', 'R3'],
+            choices: rolesList,
             when: (answers) => answers.actionInquirer === 'Add Employee'
         }, {
             type: 'list',
@@ -104,13 +98,13 @@ const promptAction = (teamData = []) => {
             type: 'list',
             name: 'updateEmployee',
             message: 'Which employee\'s role do you want to update?',
-            choices: employeeList,//['E1', 'E2', 'E3'],
+            choices: employeeList,
             when: (answers) => answers.actionInquirer === 'Update Employee Role'
         }, {
             type: 'list',
             name: 'updateRole',
             message: 'Which role do you want to assign the selected employee?',
-            choices: ['R1', 'R2', 'R3'],
+            choices: rolesList,
             when: (answers) => answers.actionInquirer === 'Update Employee Role'
         }, {
             type: 'input',
@@ -185,13 +179,15 @@ const promptAction = (teamData = []) => {
                 // Create a employee
                 const sqlCreateEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
                 VALUES (?,?,?,?)`;
-                const params = [teamData.firstName, teamData.lastName, 4, 5];
+                //console.log(teamData.role);
+
+                const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 5];
 
                 db.query(sqlCreateEmployee, params, (err, result) => {
                     if (err) {
                         console.log(err);
                     }
-                    console.log("Added" + teamData.firstName + " " + teamData.lastName + " to the database");
+                    console.log("Added " + teamData.firstName + " " + teamData.lastName + " to the database");
                     promptAction(teamData);
                 });
                 return;
