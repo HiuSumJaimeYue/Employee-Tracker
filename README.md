@@ -10,7 +10,7 @@ The technologies I used in this project are Node.js, Inquirer and MySQL.
 Below are the links to this repository and the video of demostration.
         
 Github repository: https://github.com/HiuSumJaimeYue/Employee-Tracker           
-Video of demonstration: 
+Video of demonstration: https://youtu.be/7hE6_B4_auU
 
 ## Table of Contents               
 -[Installation](#installation)          
@@ -21,7 +21,7 @@ Video of demonstration:
 -[Questions](#questions)        
 
 ## Installation         
-Run "npm i inquirer@8.2.4" and "npm i mysql2" in your terminal after downloading the files from the GitHub repository.                 
+Run "npm i inquirer@8.2.4", "npm i console.table" and "npm i mysql2" in your terminal after downloading the files from the GitHub repository.                 
 
 ## Usage    
   
