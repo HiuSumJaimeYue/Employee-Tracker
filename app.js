@@ -179,23 +179,12 @@ const promptAction = (teamData = []) => {
                 const sqlCreateEmployee = `INSERT INTO employees (first_name, last_name, role_id, manager_id) 
                 VALUES (?,?,?,?)`;
                 let manager;
-
-                // if (teamData.role === "None"){
-                //     manager = null;
-                // }else{
                 manager = managerList.indexOf(teamData.assignedManager);
-                if (manager === 0) {
+                if (manager === 0) {//for null case
                     manager = null;
                 }
-                // }
                 const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1,
                     manager];
-                //function for null case
-                // if(teamData.assignedManager !== "None"){
-                //     const params = [teamData.firstName, teamData.lastName, rolesList.indexOf(teamData.role) + 1, 
-                //         employeeList.indexOf(teamData.assignedManager) + 1]; 
-                // }
-
 
                 db.query(sqlCreateEmployee, params, (err, result) => {
                     if (err) {
@@ -216,7 +205,7 @@ const promptAction = (teamData = []) => {
                 SET role_id =? WHERE id = ?;`;
 
                 const paramsUpdate = [rolesList.indexOf(teamData.updateRole) + 1,
-                employeeList.indexOf(teamData.updateEmployee) + 1];
+                employeeList.indexOf(teamData.updateEmployee)];
 
                 db.query(sqlUpdateEmployee, paramsUpdate, (err, result) => {
                     if (err) {
