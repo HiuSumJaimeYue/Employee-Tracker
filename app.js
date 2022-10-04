@@ -178,13 +178,13 @@ const promptAction = (teamData = []) => {
         .then(action => {
             teamData.action = action.actionInquirer;
             if (action.actionInquirer === 'View All Employees') {
-                const sqlViewEmployee = `SELECT employees.id, employees.first_name, last_name, 
+                const sqlViewEmployee = `SELECT employees.id, employees.first_name, employees.last_name, 
                 roles.title, departments.name AS department, roles.salary, employees.manager_id,
-                (SELECT CONCAT(employees.first_name, ' ', employees.last_name)
-                WHERE employees.manager_id = employees.id) AS manager 
+                CONCAT (manager.first_name, " ", manager.last_name) AS manager 
                 FROM employees
                 LEFT JOIN roles ON employees.role_id = roles.id
-                LEFT JOIN departments ON roles.department_id = departments.id;`;
+                LEFT JOIN departments ON roles.department_id = departments.id
+                LEFT JOIN employees manager ON employees.manager_id = manager.id;`;
 
                 db.query(sqlViewEmployee, (err, row) => {
                     if (err) {
@@ -263,8 +263,8 @@ const promptAction = (teamData = []) => {
                 const sqlCreateRole = `INSERT INTO roles (title, salary, department_id) 
                 VALUES (?,?,?)`;
 
-                const params = [teamData.newRole, teamData.salary, 
-                    departmentList.indexOf(teamData.roleDepartment) + 1];
+                const params = [teamData.newRole, teamData.salary,
+                departmentList.indexOf(teamData.roleDepartment) + 1];
 
                 db.query(sqlCreateRole, params, (err, result) => {
                     if (err) {
@@ -288,9 +288,26 @@ const promptAction = (teamData = []) => {
                 return;
             }
             else if (action.actionInquirer === 'Add Department') {
-                console.log("Add De");
-                console.log("\nAdded " + action.newDepartmentName + " to the database");
                 teamData.newDepartment = action.newDepartmentName;
+
+                // Create a department
+                const sqlCreateDepartment = `INSERT INTO departments (name) 
+                VALUES (?)`;
+
+                const params = [teamData.newDepartment];
+
+                db.query(sqlCreateDepartment, params, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log("Added " + teamData.newDepartment + " to the database");
+                    rolesList = [];
+                    employeeList = [];
+                    departmentList = [];
+                    promptAction(teamData);
+                });
+                return;
+
             }
             console.log(teamData);
             return promptAction(teamData);
