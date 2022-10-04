@@ -159,9 +159,10 @@ const promptAction = (teamData = []) => {
             teamData.action = action.actionInquirer;
             if (action.actionInquirer === 'View All Employees') {
                 const sqlViewEmployee = `SELECT employees.id, employees.first_name, last_name,roles.title,
-                roles.department_id, roles.salary,  employees.manager_id
+                departments.name, roles.salary,  employees.manager_id
                 FROM employees
-                LEFT JOIN roles ON employees.role_id = roles.id;`;
+                LEFT JOIN roles ON employees.role_id = roles.id
+                LEFT JOIN departments ON roles.department_id = departments.id;`;
                 db.query(sqlViewEmployee, (err, row) => {
                     if (err) {
                         console.log(err);
