@@ -250,7 +250,15 @@ const promptAction = (teamData = []) => {
                 });
                 return;
             } else if (action.actionInquirer === 'View All Departments') {
-                console.log("View All De");
+                const sqlViewDepartments = `SELECT * FROM departments;`;
+                db.query(sqlViewDepartments, (err, row) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.table(row);
+                    promptAction(teamData);
+                });
+                return;
             }
             else if (action.actionInquirer === 'Add Department') {
                 console.log("Add De");
