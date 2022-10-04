@@ -179,7 +179,7 @@ const promptAction = (teamData = []) => {
             teamData.action = action.actionInquirer;
             if (action.actionInquirer === 'View All Employees') {
                 const sqlViewEmployee = `SELECT employees.id, employees.first_name, last_name, 
-                roles.title, departments.name AS department, roles.salary,
+                roles.title, departments.name AS department, roles.salary, employees.manager_id,
                 (SELECT CONCAT(employees.first_name, ' ', employees.last_name)
                 WHERE employees.manager_id = employees.id) AS manager 
                 FROM employees
