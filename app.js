@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const db = require('./db/connection');
 var rolesList = [];
 var employeeList = [];
+var departmentList = [];
 
 const employeeChoices = () => {
     const employeeQuery = `SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;`;
@@ -35,12 +36,31 @@ const roleChoices = () => {
     return rolesList;
 };
 
+const departmentChoices = () => {
+    const departmentQuery = `SELECT name FROM departments;`;
+
+    db.query(departmentQuery, (err, row) => {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log("\n");
+        for (var i = 0; i < row.length; i++) {
+            departmentList.push(row[i].name);
+        }
+    });
+    return departmentList;
+};
+
+
 const promptAction = (teamData = []) => {
 
     rolesList = [];
     employeeList = [];
+    departmentList = [];
     roleChoices();
     employeeChoices();
+    departmentChoices();
     const managerList = employeeList;
     managerList.unshift("None");
 
@@ -137,8 +157,8 @@ const promptAction = (teamData = []) => {
         }, {
             type: 'list',
             name: 'roleDepartment',
-            message: 'What deparatment does the role belong to?',
-            choices: ['D1', 'D2', 'D3'],
+            message: 'What department does the role belong to?',
+            choices: departmentList,
             when: (answers) => answers.actionInquirer === 'Add Role'
         }, {
             type: 'input',
@@ -158,11 +178,14 @@ const promptAction = (teamData = []) => {
         .then(action => {
             teamData.action = action.actionInquirer;
             if (action.actionInquirer === 'View All Employees') {
-                const sqlViewEmployee = `SELECT employees.id, employees.first_name, last_name,roles.title,
-                departments.name, roles.salary,  employees.manager_id
+                const sqlViewEmployee = `SELECT employees.id, employees.first_name, last_name, 
+                roles.title, departments.name AS department, roles.salary,
+                (SELECT CONCAT(employees.first_name, ' ', employees.last_name)
+                WHERE employees.manager_id = employees.id) AS manager 
                 FROM employees
                 LEFT JOIN roles ON employees.role_id = roles.id
                 LEFT JOIN departments ON roles.department_id = departments.id;`;
+
                 db.query(sqlViewEmployee, (err, row) => {
                     if (err) {
                         console.log(err);
@@ -219,7 +242,9 @@ const promptAction = (teamData = []) => {
                 });
                 return;
             } else if (action.actionInquirer === 'View All Roles') {
-                const sqlViewRoles = `SELECT * FROM roles;`;
+                const sqlViewRoles = `SELECT roles.id, roles.title, departments.name AS department, 
+                roles.salary FROM roles
+                LEFT JOIN departments ON roles.department_id = departments.id;`;
                 db.query(sqlViewRoles, (err, row) => {
                     if (err) {
                         console.log(err);
@@ -238,7 +263,8 @@ const promptAction = (teamData = []) => {
                 const sqlCreateRole = `INSERT INTO roles (title, salary, department_id) 
                 VALUES (?,?,?)`;
 
-                const params = [teamData.newRole, teamData.salary, 2];
+                const params = [teamData.newRole, teamData.salary, 
+                    departmentList.indexOf(teamData.roleDepartment) + 1];
 
                 db.query(sqlCreateRole, params, (err, result) => {
                     if (err) {
